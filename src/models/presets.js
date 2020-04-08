@@ -66,6 +66,7 @@ const presets = {
                 this.add(preset, true);
             });
         } catch(e) {
+            // eslint-disable-next-line no-console
             console.error('Load presets failed: %s', e.message);
         }
     },

@@ -5,6 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
+        "gh-pages": "npm version patch && git checkout gh-pages && git merge master && npm run build && sed -i 's,/static/,./static/,g' dist/index.html && git add dist/* -f && git commit --amend && git co -",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {

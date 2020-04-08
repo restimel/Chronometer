@@ -76,6 +76,7 @@ export default {
             this.chrono.reset();
         },
         record() {
+            // eslint-disable-next-line no-console
             console.log('TODO record', chrono.timestamp);
         },
         prevent(evt) {

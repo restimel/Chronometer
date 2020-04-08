@@ -6,7 +6,7 @@ Create a simple configurable chronometer which can be started with keyboard.
 It should be usable for many games which needs special timer.
 
 # Test online
-Visit https://restimel.github.io/Chronometer/public/index.html
+Visit https://restimel.github.io/Chronometer/dist/index.html
 
 # Features
 * Timer up and down
@@ -34,8 +34,14 @@ npm run serve
 ```
 
 ### Compiles and minifies for production
+#### Classic way
 ```
 npm run build
+```
+
+#### For Github
+```
+npm run gh-pages
 ```
 
 ### Lints and fixes files
