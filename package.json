@@ -5,7 +5,8 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
-        "gh-pages": "npm version patch && git checkout gh-pages && git merge master && npm run build && sed -i 's,/static/,./static/,g' dist/index.html && git add dist/* -f && git commit --amend && git co -",
+        "gh-pages": "npm version patch && git checkout gh-pages && git merge master && npm run build && sleep 1s && sed -i 's,=/,=./,g' dist/index.html && git add dist/* -f && git commit --amend && git co -",
+        "reset-build": "git tag -d `git describe --exact-match --abbrev=0` && git co gh-pages && git reset --hard HEAD^ && rm -rf dist && git reset --hard && git co - && git reset --hard HEAD^ && rm -rf dist && git reset --hard",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
