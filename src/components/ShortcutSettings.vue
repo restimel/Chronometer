@@ -4,6 +4,35 @@
 
         <div class="keys-display">
             <div class="keys-display__header">
+                Action when chronometer is sleeping
+            </div>
+            <div class="keys-display__header">
+                Key
+            </div>
+            <template v-for="keyItem of sleeping"
+            >
+                <div
+                    :key="'action' + keyItem"
+                    class="action-name"
+                    @click="() => onclick(keyItem)"
+                >
+                    {{info[keyItem]}}
+                </div>
+                <div
+                    :key="'bind' + keyItem"
+                    class="key-binding"
+                    :class="{
+                        'is-binding': record === keyItem,
+                    }"
+                    @click="() => onclick(keyItem)"
+                >
+                    {{ record === keyItem ? 'Press key to bind...' : binding[keyItem]}}
+                </div>
+            </template>
+        </div>
+
+        <div class="keys-display">
+            <div class="keys-display__header">
                 Action when chronometer is running
             </div>
             <div class="keys-display__header">
@@ -12,21 +41,50 @@
             <template v-for="keyItem of running"
             >
                 <div
-                    :key="'action' + keyItem.key"
+                    :key="'action' + keyItem"
                     class="action-name"
                     @click="() => onclick(keyItem)"
                 >
-                    {{keyItem.text}}
+                    {{info[keyItem]}}
                 </div>
                 <div
-                    :key="'bind' + keyItem.key"
+                    :key="'bind' + keyItem"
                     class="key-binding"
                     :class="{
-                        'is-binding': record === keyItem.key,
+                        'is-binding': record === keyItem,
                     }"
                     @click="() => onclick(keyItem)"
                 >
-                    {{ record === keyItem.key ? 'Press key to bind...' : binding[keyItem.key]}}
+                    {{ record === keyItem ? 'Press key to bind...' : binding[keyItem]}}
+                </div>
+            </template>
+        </div>
+
+        <div class="keys-display">
+            <div class="keys-display__header">
+                Other actions
+            </div>
+            <div class="keys-display__header">
+                Key
+            </div>
+            <template v-for="keyItem of always"
+            >
+                <div
+                    :key="'action' + keyItem"
+                    class="action-name"
+                    @click="() => onclick(keyItem)"
+                >
+                    {{info[keyItem]}}
+                </div>
+                <div
+                    :key="'bind' + keyItem"
+                    class="key-binding"
+                    :class="{
+                        'is-binding': record === keyItem,
+                    }"
+                    @click="() => onclick(keyItem)"
+                >
+                    {{ record === keyItem ? 'Press key to bind...' : binding[keyItem]}}
                 </div>
             </template>
         </div>
@@ -34,22 +92,32 @@
 </template>
 
 <script>
-import shortcuts, { set as setShortcut } from '@/models/shortcut.js';
+import shortcuts, {
+    set as setShortcut,
+    running,
+    sleeping,
+    always,
+} from '@/models/shortcut.js';
 
 export default {
     name: 'ShortcutSetting',
     data: () => ({
         binding: Object.assign({}, shortcuts),
-        running: [{
-            key: 'MAIN',
-            text: 'Start and Stop chronometer',
-        }, {
-            key: 'RESET',
-            text: 'Stop and Reset chronometer',
-        }, {
-            key: 'RECORD',
-            text: 'Record timer',
-        }],
+        info: {
+            'START': 'Start chronometer',
+            'RESET': 'Reset chronometer',
+            'STOP': 'Stop chronometer',
+            'RECORD': 'Record timer',
+            'STOP_RESET': 'Stop and Reset chronometer',
+            'Special1': 'Special action 1',
+            'Special2': 'Special action 2',
+            'Special3': 'Special action 3',
+            'Special4': 'Special action 4',
+            'Special5': 'Special action 5',
+        },
+        sleeping: sleeping,
+        running: running,
+        always: always,
         record: null,
     }),
     computed: {
@@ -80,8 +148,7 @@ export default {
             document.body.removeEventListener('keydown', this.listenerKey);
             this.record = null;
         },
-        onclick(keyItem) {
-            const key = keyItem.key;
+        onclick(key) {
             if (this.record === key) {
                 this.removeListeners();
             } else {
