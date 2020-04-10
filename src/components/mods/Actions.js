@@ -26,6 +26,12 @@ export default {
             actions.forEach((action) => this.doAction(action, event));
         },
 
+        trigger(evtType) {
+            const events = this.currentFormat.events.filter((event) => event.enabled && event.trigger === evtType);
+
+            events.forEach((event) => this.triggerEvent(event));
+        },
+
         getEvent(id, currentEvent) {
             if (!id || id === 'this') {
                 return currentEvent;

@@ -7,9 +7,6 @@ const initConf = {
     name: '',
     format: {
         display: '{HH}:{MM}:{SS}.{LLL}',
-        inc: 1,
-        start: 0,
-        color: 'black',
         events: [{
             id: 'init',
             trigger: 'reset',
