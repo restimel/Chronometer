@@ -9,7 +9,26 @@ const initConf = {
         display: '{HH}:{MM}:{SS}.{LLL}',
         inc: 1,
         start: 0,
-        events: [],
+        color: 'black',
+        events: [{
+            id: 'init',
+            trigger: 'reset',
+            triggerValue: null,
+            enabled: true,
+            actions: [{
+                action: 'set',
+                value: 0,
+            }, {
+                action: 'color',
+                value: 'black',
+            }, {
+                action: 'increment',
+                value: 1,
+            }, {
+                action: 'enable',
+                value: '*',
+            }],
+        }],
     },
 };
 

@@ -16,6 +16,19 @@ const shortcuts = Object.assign({
     Special5: 'F5',
 }, storage && JSON.parse(storage) || {});
 
+export const bindingDesc = {
+    'START': 'Start chronometer',
+    'RESET': 'Reset chronometer',
+    'STOP': 'Stop chronometer',
+    'RECORD': 'Record timer',
+    'STOP_RESET': 'Stop and Reset chronometer',
+    'Special1': 'Special action 1',
+    'Special2': 'Special action 2',
+    'Special3': 'Special action 3',
+    'Special4': 'Special action 4',
+    'Special5': 'Special action 5',
+};
+
 /* list of binding to use when chronometer is running */
 export const running = [
     'STOP',

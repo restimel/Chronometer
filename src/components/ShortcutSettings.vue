@@ -97,27 +97,17 @@ import shortcuts, {
     running,
     sleeping,
     always,
+    bindingDesc,
 } from '@/models/shortcut.js';
 
 export default {
     name: 'ShortcutSetting',
+    info: bindingDesc,
+    sleeping: sleeping,
+    running: running,
+    always: always,
     data: () => ({
         binding: Object.assign({}, shortcuts),
-        info: {
-            'START': 'Start chronometer',
-            'RESET': 'Reset chronometer',
-            'STOP': 'Stop chronometer',
-            'RECORD': 'Record timer',
-            'STOP_RESET': 'Stop and Reset chronometer',
-            'Special1': 'Special action 1',
-            'Special2': 'Special action 2',
-            'Special3': 'Special action 3',
-            'Special4': 'Special action 4',
-            'Special5': 'Special action 5',
-        },
-        sleeping: sleeping,
-        running: running,
-        always: always,
         record: null,
     }),
     computed: {

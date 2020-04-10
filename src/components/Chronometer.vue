@@ -3,6 +3,7 @@
         <DigitalTimer
             :timestamp="chrono.timestamp"
             :timeFormat="currentFormat.display"
+            :style="'color:' + color"
         />
         <footer
             class="chronometer-footer"
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import Actions from './mods/Actions.js';
 import chrono from '@/models/chrono.js';
 import {activeFormat} from '@/models/presets.js';
 import shortcuts, {
@@ -44,11 +46,15 @@ import DigitalTimer from '@/components/DigitalTimer.vue';
 
 export default {
     name: 'Chronometer',
+    mixins: [
+        Actions,
+    ],
     lockKey: false,
     data: () => ({
         isCounting: false,
         chrono: chrono,
         currentFormat: activeFormat,
+        color: 'black',
     }),
     computed: {
         mainActionName() {
@@ -90,7 +96,7 @@ export default {
         },
         reset() {
             this.stop();
-            this.chrono.reset();
+            this.actionReset();
         },
         record() {
             // eslint-disable-next-line no-console
@@ -179,12 +185,13 @@ export default {
             document.body.removeEventListener('keypress', this.prevent);
         },
         init() {
-            this.chrono.inc = this.currentFormat.inc;
-            this.chrono.stop();
-            this.chrono.reset(this.currentFormat.start);
+            this.reset();
         },
     },
     watch: {
+        currentFormat: function() {
+            this.init();
+        },
         'currentFormat.inc': function() {
             this.init();
         },
