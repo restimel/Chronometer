@@ -1,7 +1,7 @@
 <template>
     <div>
         <DigitalTimer
-            :timestamp="chrono.timestamp"
+            :value="chrono.timestamp"
             :timeFormat="currentFormat.display"
             :style="'color:' + color"
         />
