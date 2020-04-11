@@ -17,14 +17,14 @@ const initConf = {
                 action: 'set',
                 value: 0,
             }, {
-                action: 'color',
-                value: 'black',
-            }, {
                 action: 'increment',
                 value: 1,
             }, {
                 action: 'enable',
                 value: '*',
+            }, {
+                action: 'color',
+                value: 'black',
             }],
         }],
     },

@@ -26,6 +26,7 @@
                 <span>Trigger on:</span>
                 <select
                     v-model="event.trigger"
+                    :disabled="event.id === 'init'"
                 >
                     <option disabled value="never">
                         <i>Select what triggers this event</i>
@@ -56,11 +57,10 @@
             <label class="event-label">
                 <span></span>
                 <template>
-                    <input v-if="event.trigger === 'reach'"
-                        type="number"
+                    <DigitalTimerEditor v-if="event.trigger === 'reach'"
                         v-model="event.triggerValue"
-                        placeholder="timestamp to reach"
-                    >
+                        :timeFormat="activeFormat.display"
+                    />
                 </template>
             </label>
             <div
@@ -75,6 +75,7 @@
                         <select
                             v-model="action.action"
                             @change="action.value=''"
+                            :disabled="event.id === 'init' && idx < nbInitFrozen"
                         >
                             <option value="none" disabled>
                                 <i>Choose an action</i>
@@ -109,7 +110,10 @@
                                 <input type="color" v-model="action.value" />
                             </span>
                             <span v-else-if="['set', 'addTime'].includes(action.action)">
-                                <input type="number" v-model="action.value" />
+                                <DigitalTimerEditor
+                                    v-model="action.value"
+                                    :timeFormat="activeFormat.display"
+                                />
                             </span>
                             <span v-else-if="action.action === 'increment'">
                                 <select
@@ -147,7 +151,7 @@
                             </span>
                         </template>
                     </label>
-                    <button
+                    <button v-if="!(event.id === 'init' && idx < nbInitFrozen)"
                         class="remove-action-buton"
                         @click.prevent.stop="removeAction(event, action)"
                         title="Remove this action"
@@ -188,11 +192,13 @@
 
 <script>
 import { activeFormat } from '@/models/presets.js';
+import DigitalTimerEditor from '@/components/DigitalTimerEditor.vue';
 
 export default {
     name: 'TimerSettings',
     data: () => ({
         activeFormat: activeFormat,
+        nbInitFrozen: 2,
     }),
     computed: {
         events() {
@@ -247,6 +253,9 @@ export default {
 
             return id;
         },
+    },
+    components: {
+        DigitalTimerEditor,
     },
 };
 </script>
