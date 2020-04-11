@@ -19,6 +19,7 @@
 import Menu from './components/Menu.vue';
 import Chronometer from './components/Chronometer.vue';
 import ShortcutSettings from './components/ShortcutSettings.vue';
+import TimerSettings from './components/TimerSettings.vue';
 
 export default {
     name: 'App',
@@ -29,6 +30,7 @@ export default {
         Menu,
         Chronometer,
         ShortcutSettings,
+        TimerSettings,
     },
 };
 </script>

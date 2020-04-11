@@ -15,14 +15,16 @@ export default {
     },
     methods: {
         actionReset() {
-            this.triggerEvent(this.resetEvent);
             this.resetEvent.enabled = true;
+            this.trigger('reset');
         },
 
         triggerEvent(event) {
             const actions = event.actions;
 
-            event.enabled = false;
+            if (event.trigger === 'reach') {
+                event.enabled = false;
+            }
             actions.forEach((action) => this.doAction(action, event));
         },
 
@@ -46,7 +48,7 @@ export default {
             }
             const event = this.getEvent(eventName, currentEvent);
             if (event) {
-                event.enable = value;
+                event.enabled = value;
             }
         },
 
@@ -59,13 +61,13 @@ export default {
                     this.chrono.start();
                     break;
                 case 'set':
-                    this.chrono.reset(value);
+                    this.chrono.reset(+value);
                     break;
                 case 'color':
                     this.color = value || 'black';
                     break;
                 case 'increment':
-                    value = value || -this.chrono.increment;
+                    value = +value || -this.chrono.increment;
                     this.chrono.increment = value;
                     break;
                 case 'enable':
@@ -74,8 +76,14 @@ export default {
                 case 'disable':
                     this.enableEvent(value, false, currentEvent);
                     break;
-                // case 'addTime':
+                case 'addTime':
+                    value = +value || 0;
+                    this.chrono.reset(value + this.chrono.timestamp);
+                    break;
                 // case 'playSound':
+                // case 'runEvent':
+                case 'none':
+                    break;
                 default:
                     // eslint-disable-next-line no-console
                     console.warn('Action "%s" is not implemented yet.');

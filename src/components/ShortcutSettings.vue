@@ -101,7 +101,7 @@ import shortcuts, {
 } from '@/models/shortcut.js';
 
 export default {
-    name: 'ShortcutSetting',
+    name: 'ShortcutSettings',
     info: bindingDesc,
     sleeping: sleeping,
     running: running,

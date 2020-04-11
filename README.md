@@ -14,7 +14,7 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
     * start timer on keyUp
     * end timer on keyDown
 * Display is configurable (_work in progress (50%)_)
-* Configures timer to do several actions (_Work in progress (40%)_)
+* Configures timer to do several actions (_Work in progress (70%)_)
     * Change timer color
     * Play sounds
     * Restart timer (this allows to do infinite loop)

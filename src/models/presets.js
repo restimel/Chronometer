@@ -9,6 +9,7 @@ const initConf = {
         display: '{HH}:{MM}:{SS}.{LLL}',
         events: [{
             id: 'init',
+            name: 'initialisation',
             trigger: 'reset',
             triggerValue: null,
             enabled: true,

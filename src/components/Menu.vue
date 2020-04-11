@@ -46,6 +46,9 @@ export default {
         }, {
             id: 'ShortcutSettings',
             text: 'Keyboard shortcuts',
+        }, {
+            id: 'TimerSettings',
+            text: 'Configure your timer',
         }],
         presets: presets,
     }),

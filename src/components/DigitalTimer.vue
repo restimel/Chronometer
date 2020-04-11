@@ -124,7 +124,7 @@ export default {
             return strNb;
         },
         update() {
-            let t = Math.floor(this.timestamp);
+            let t = Math.floor(Math.abs(this.timestamp));
             const maxUnit = this.maxUnit;
             const values = {};
 
