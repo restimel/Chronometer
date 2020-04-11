@@ -75,7 +75,6 @@ export default {
         start() {
             this.chrono.start();
             const isCounting = this.isCounting;
-            this.isCounting = true;
             if (!isCounting) {
                 this.trigger('start');
             }
@@ -83,7 +82,6 @@ export default {
         stop() {
             this.chrono.stop();
             const isCounting = this.isCounting;
-            this.isCounting = false;
             if (isCounting) {
                 this.trigger('stop');
             }

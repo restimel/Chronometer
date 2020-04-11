@@ -221,14 +221,16 @@ export default {
         addEvent() {
             const events = this.activeFormat.events;
             const id = this.newEventId();
-            events.push({
+            const event = {
                 id: id,
                 name: id,
                 trigger: 'never',
                 triggerValue: null,
                 enabled: true,
                 actions: [],
-            });
+            };
+            this.addAction(event);
+            events.push(event);
         },
         addAction(event) {
             const action = {

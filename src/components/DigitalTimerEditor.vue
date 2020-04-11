@@ -1,5 +1,11 @@
 <template>
     <span class="digital-timer-editor" :class="{hasError: hasError}">
+        <span
+            class="time-sign"
+            @click.prevent.stop="negativeSign = !negativeSign"
+        >
+            {{negativeSign ? '➖' : '➕'}}
+        </span>
         <template v-for="(chunk, idx) of splitted"
         >
             <input v-if="typeof chunk ==='object'"
@@ -34,16 +40,19 @@ export default {
     mixins: [
         FormatTs,
     ],
-    data: () => ({
-        values: {
-            ms: 0,
-            s: 0,
-            min: 0,
-            h: 0,
-            d: 0,
-        },
-        hasError: false,
-    }),
+    data() {
+        return {
+            values: {
+                ms: 0,
+                s: 0,
+                min: 0,
+                h: 0,
+                d: 0,
+            },
+            hasError: false,
+            negativeSign: this.value < 0,
+        };
+    },
     computed: {
         generateTs() {
             const values = this.values;
@@ -52,6 +61,9 @@ export default {
                 sumMax *= (conversion[idx - 1] || {max: 1}).max;
                 return total + values[unit.name] * sumMax;
             }, 0);
+            if (this.negativeSign) {
+                return -ts;
+            }
             return ts;
         },
     },
@@ -79,6 +91,9 @@ export default {
         },
     },
     watch: {
+        isNegative() {
+            this.negativeSign = this.isNegative;
+        },
         'values.ms': function() {
             this.send();
         },
@@ -100,6 +115,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.time-sign {
+    cursor: pointer;
+}
 .hasError {
     color: red;
 }
