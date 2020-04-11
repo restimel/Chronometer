@@ -1,4 +1,4 @@
-
+const calledEvents = [];
 
 export default {
     computed: {
@@ -6,15 +6,13 @@ export default {
             return this.currentFormat.events.find((event) => event.id === 'init');
         },
 
-        nextTrigger() {
-            const events = this.currentFormat.events.filter((event) => event.enabled && event.trigger === 'reach');
-            const increment = this.chrono.increment;
-            const sortedEvents = [...events].sort((a, b) => (a - b) * increment);
-            return sortedEvents[0];
+        reachEvents() {
+            return this.currentFormat.events.filter((event) => event.enabled && event.trigger === 'reach');
         },
     },
     methods: {
         actionReset() {
+            this.lastTs = undefined;
             this.resetEvent.enabled = true;
             this.trigger('reset');
         },
@@ -22,9 +20,6 @@ export default {
         triggerEvent(event) {
             const actions = event.actions;
 
-            if (event.trigger === 'reach') {
-                event.enabled = false;
-            }
             actions.forEach((action) => this.doAction(action, event));
         },
 
@@ -52,6 +47,25 @@ export default {
             }
         },
 
+        runEvent(eventName, currentEvent) {
+            calledEvents.push(currentEvent);
+
+            if (eventName === '*') {
+                this.currentFormat.events.forEach((event) => {
+                    if (!calledEvents.includes(event)) {
+                        this.triggerEvent(event);
+                    }
+                });
+            } else {
+                const event = this.getEvent(eventName, currentEvent);
+                if (!calledEvents.includes(event)) {
+                    this.triggerEvent(event);
+                }
+            }
+
+            calledEvents.pop();
+        },
+
         doAction({ action, value }, currentEvent) {
             switch (action) {
                 case 'stop':
@@ -67,8 +81,7 @@ export default {
                     this.color = value || 'black';
                     break;
                 case 'increment':
-                    value = +value || -this.chrono.increment;
-                    this.chrono.increment = value;
+                    this.chrono.changeIncrement(value);
                     break;
                 case 'enable':
                     this.enableEvent(value, true, currentEvent);
@@ -80,8 +93,10 @@ export default {
                     value = +value || 0;
                     this.chrono.reset(value + this.chrono.timestamp);
                     break;
+                case 'runEvent':
+                    this.runEvent(value, currentEvent);
+                    break;
                 // case 'playSound':
-                // case 'runEvent':
                 case 'none':
                     break;
                 default:
@@ -91,16 +106,23 @@ export default {
         },
 
         checkTriggers() {
-            const nextTrigger = this.nextTrigger;
-            if (nextTrigger) {
-                const increment = this.chrono.increment;
+            const reachEvents = this.reachEvents;
+
+            if (reachEvents.length) {
+                const lastTs = this.lastTs;
                 const timestamp = this.chrono.timestamp;
-                if (
-                    (increment === 1 && timestamp >= nextTrigger.triggerValue)
-                 || (increment === -1 && timestamp <= nextTrigger.triggerValue)
-                ) {
-                    this.triggerEvent(nextTrigger);
+
+                if (typeof lastTs === 'number') {
+                    const min = Math.min(lastTs, timestamp);
+                    const max = Math.max(lastTs, timestamp);
+                    reachEvents.forEach((event) => {
+                        const value = +event.triggerValue;
+                        if (value > min && value <= max) {
+                            this.triggerEvent(event);
+                        }
+                    });
                 }
+                this.lastTs = timestamp;
             }
         },
     },

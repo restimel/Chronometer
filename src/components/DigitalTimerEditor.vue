@@ -1,5 +1,5 @@
 <template>
-    <span class="digital-timer-editor">
+    <span class="digital-timer-editor" :class="{hasError: hasError}">
         <template v-for="(chunk, idx) of splitted"
         >
             <input v-if="typeof chunk ==='object'"
@@ -42,6 +42,7 @@ export default {
             h: 0,
             d: 0,
         },
+        hasError: false,
     }),
     computed: {
         generateTs() {
@@ -68,7 +69,13 @@ export default {
         },
 
         send() {
-            this.$emit('input', this.generateTs);
+            const generateTs = this.generateTs;
+            if (Number.isFinite(generateTs)) {
+                this.hasError = false;
+                this.$emit('input', generateTs);
+            } else {
+                this.hasError = true;
+            }
         },
     },
     watch: {
@@ -93,5 +100,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.hasError {
+    color: red;
+}
+.hasError input {
+    border-color: red;
+}
 </style>

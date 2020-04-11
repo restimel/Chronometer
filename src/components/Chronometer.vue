@@ -48,7 +48,6 @@ export default {
     ],
     lockKey: false,
     data: () => ({
-        isCounting: false,
         chrono: chrono,
         currentFormat: activeFormat,
         color: 'black',
@@ -59,6 +58,9 @@ export default {
         },
         mainActionIcon() {
             return this.isCounting ? '⏸' : '▶';
+        },
+        isCounting() {
+            return this.chrono.isRunning;
         },
     },
     methods: {
@@ -72,11 +74,19 @@ export default {
         },
         start() {
             this.chrono.start();
+            const isCounting = this.isCounting;
             this.isCounting = true;
+            if (!isCounting) {
+                this.trigger('start');
+            }
         },
         stop() {
             this.chrono.stop();
+            const isCounting = this.isCounting;
             this.isCounting = false;
+            if (isCounting) {
+                this.trigger('stop');
+            }
         },
         reset() {
             this.stop();

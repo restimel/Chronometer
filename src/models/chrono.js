@@ -9,13 +9,16 @@ export default {
     refTs: performance.now(),
     timer: 0,
     updateDelay: 67,
+    isRunning: false,
     start() {
         clearTimeout(this.timer);
         this.refTs = performance.now();
+        this.isRunning = true;
         this.next();
     },
     stop() {
         clearTimeout(this.timer);
+        this.isRunning = false;
         this.count();
         this.offset = this.timestamp;
     },
@@ -23,6 +26,17 @@ export default {
         this.offset = offset;
         this.timestamp = offset;
         this.refTs = performance.now();
+    },
+    changeIncrement(inc = 0) {
+        const newInc = inc || -this.increment;
+        const isRunning = this.isRunning;
+        if (isRunning) {
+            this.stop();
+        }
+        this.increment = newInc;
+        if (isRunning) {
+            this.start();
+        }
     },
     count() {
         const instant = performance.now();

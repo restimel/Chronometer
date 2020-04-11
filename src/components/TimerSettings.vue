@@ -31,11 +31,17 @@
                     <option disabled value="never">
                         <i>Select what triggers this event</i>
                     </option>
-                    <option value="reset">
-                        when timer is reset
-                    </option>
                     <option value="reach">
                         when timer reach a time value
+                    </option>
+                    <option value="start">
+                        when timer starts
+                    </option>
+                    <option value="stop">
+                        when timer stops
+                    </option>
+                    <option value="reset">
+                        when timer is reset
                     </option>
                     <option value="Special1">
                         when shortcut Special 1 is triggered
@@ -104,6 +110,9 @@
                             <option value="disable">
                                 Disable an event
                             </option>
+                            <option value="runEvent">
+                                Run an event
+                            </option>
                         </select>
                         <template>
                             <span v-if="action.action === 'color'">
@@ -130,7 +139,7 @@
                                     </option>
                                 </select>
                             </span>
-                            <span v-else-if="['enable', 'disable'].includes(action.action)">
+                            <span v-else-if="['enable', 'disable', 'runEvent'].includes(action.action)">
                                 <select
                                     v-model="action.value"
                                 >
@@ -173,9 +182,9 @@
                 <p v-if="event.id === 'init'">
                     This event cannot be disabled nor deleted.
                 </p>
-                <p v-else-if="event.trigger === 'reach'">
+                <!-- <p v-else-if="event.trigger === 'reach'">
                     By default, this event is disabled after its execution.
-                </p>
+                </p> -->
             </aside>
         </section>
 
