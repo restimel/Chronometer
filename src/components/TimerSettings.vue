@@ -270,9 +270,6 @@ export default {
         },
     },
     methods: {
-        log(txt) {
-            console.log(typeof txt, txt);
-        },
         addEvent() {
             const events = this.activeFormat.events;
             const id = this.newEventId();
