@@ -327,7 +327,8 @@ export default {
                 name: this.presetName,
                 format: this.activeFormat,
             };
-            presets.addPreset(preset);
+            const id = presets.add(preset);
+            presets.setActive(id);
         },
     },
     watch: {
