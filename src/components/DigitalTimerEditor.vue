@@ -10,6 +10,8 @@
         >
             <input v-if="typeof chunk ==='object'"
                 :key="`digital-editor-input-${idx}`"
+                type="number"
+                min="0"
                 size="2"
                 v-model="values[chunk.name]"
             >
@@ -123,5 +125,8 @@ export default {
 }
 .hasError input {
     border-color: red;
+}
+input[size="2"] {
+    width: 3em;
 }
 </style>

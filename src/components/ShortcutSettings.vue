@@ -102,13 +102,13 @@ import shortcuts, {
 
 export default {
     name: 'ShortcutSettings',
-    info: bindingDesc,
-    sleeping: sleeping,
-    running: running,
-    always: always,
     data: () => ({
         binding: Object.assign({}, shortcuts),
         record: null,
+        info: bindingDesc,
+        sleeping: sleeping,
+        running: running,
+        always: always,
     }),
     computed: {
         listenerKey() {

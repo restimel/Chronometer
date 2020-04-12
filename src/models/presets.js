@@ -2,6 +2,8 @@
  * Saved presets
  */
 
+import { deepExtend } from '@/tools.js';
+
 const initConf = {
     id: 'default',
     name: '',
@@ -87,9 +89,32 @@ const presets = {
             console.error('Load presets failed: %s', e.message);
         }
     },
+    addPreset(preset) {
+        let id = preset.id;
+        const existingPreset = this.getPreset(id);
+
+        /* generate a unique id */
+        if (!id) {
+            let idx = this.data.length;
+            do {
+                id = `preset ${idx++}`;
+            } while (this.getPreset(id));
+        }
+
+        if (existingPreset) {
+            deepExtend.replaceArray(existingPreset, preset);
+        } else {
+            this.data.push(deepExtend({}, preset, {id}));
+        }
+        this.setActive(id);
+        this.save();
+    },
+    getPreset(id) {
+        return this.data.find((item) => item.id === id);
+    },
     setActive(format) {
         if (typeof format === 'string') {
-            const preset = this.data.find((item) => item.id === format);
+            const preset = this.getPreset(format);
             if (!preset) {
                 return false;
             }
@@ -105,11 +130,11 @@ const presets = {
         } else {
             this.activePreset = '';
         }
-        Object.assign(activeFormat, format);
+        deepExtend.replaceArray(activeFormat, format);
     },
 };
 
-export const activeFormat = Object.assign({}, initConf.format);
+export const activeFormat = deepExtend({}, initConf.format);
 
 presets.load();
 presets.setActive(0);

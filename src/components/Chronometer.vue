@@ -37,7 +37,7 @@
 import Actions from './mods/Actions.js';
 import KeyboardMngt from './mods/KeyboardMngt.js';
 import chrono from '@/models/chrono.js';
-import {activeFormat} from '@/models/presets.js';
+import presets, {activeFormat} from '@/models/presets.js';
 import DigitalTimer from '@/components/DigitalTimer.vue';
 
 export default {
@@ -51,6 +51,7 @@ export default {
         chrono: chrono,
         currentFormat: activeFormat,
         color: 'black',
+        presets: presets,
     }),
     computed: {
         mainActionName() {
@@ -73,15 +74,15 @@ export default {
             }
         },
         start() {
-            this.chrono.start();
             const isCounting = this.isCounting;
+            this.chrono.start();
             if (!isCounting) {
                 this.trigger('start');
             }
         },
         stop() {
-            this.chrono.stop();
             const isCounting = this.isCounting;
+            this.chrono.stop();
             if (isCounting) {
                 this.trigger('stop');
             }
@@ -96,17 +97,12 @@ export default {
         },
 
         init() {
+            this.currentFormat = activeFormat;
             this.reset();
         },
     },
     watch: {
-        currentFormat: function() {
-            this.init();
-        },
-        'currentFormat.inc': function() {
-            this.init();
-        },
-        'currentFormat.start': function() {
+        'presets.activePreset': function() {
             this.init();
         },
     },

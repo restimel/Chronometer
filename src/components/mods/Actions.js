@@ -96,7 +96,7 @@ export default {
                 case 'runEvent':
                     this.runEvent(value, currentEvent);
                     break;
-                // case 'playSound':
+                // case 'sound':
                 case 'none':
                     break;
                 default:

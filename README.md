@@ -19,7 +19,7 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
     * Play sounds
     * Restart timer (this allows to do infinite loop)
     * Add time (for a Fisher system equivalent)
-* Save preset timers (_Work in progress (50%)_)
+* Save preset timers (_Work in progress (80%)_)
 * Record time (_Work in progress (5%)_)
 
 ## Project development

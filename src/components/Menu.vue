@@ -12,12 +12,12 @@
                 {{page.text}}
             </li>
         </ul>
-        <details v-if="presets.length > 0"
+        <details v-if="presets.data.length > 0"
             open
         >
             <summary>Presets</summary>
             <ul>
-                <li v-for="preset of presets"
+                <li v-for="preset of presets.data"
                     :key="preset.id"
                     :class="{
                         active: preset.id === presets.activePreset,

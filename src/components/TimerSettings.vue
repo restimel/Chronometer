@@ -86,14 +86,18 @@
                             <option value="none" disabled>
                                 <i>Choose an action</i>
                             </option>
+
+                            <option value="color">
+                                Change timer color
+                            </option>
+                            <option value="sound" disabled>
+                                Play a sound
+                            </option>
                             <option value="start">
                                 Start sleeping timer
                             </option>
                             <option value="stop">
                                 Stop running timer
-                            </option>
-                            <option value="color">
-                                Change timer color
                             </option>
                             <option value="set">
                                 Set a value timer
@@ -196,22 +200,73 @@
                 ➕ Add an event
             </button>
         </footer>
+        <footer>
+            <button
+                class="save-preset"
+                @click.prevent.stop="saveConfig"
+            >
+                💾 Save this configuration
+            </button>
+        </footer>
+        <aside>
+            <ConfirmDialog
+                :open="saveDialog"
+                @cancel="saveDialog = false"
+                @ok="savePreset"
+            >
+                <section>
+                    <p v-if="presetList.length > 0">
+                        Override an existing preset:
+                        <select
+                            v-model="presetId"
+                        >
+                            <option value="">
+                                New preset
+                            </option>
+                            <hr>
+                            <option v-for="preset of presetList"
+                                :key="`option-${preset.id}`"
+                                :value="preset.id"
+                            >
+                                {{preset.name}}
+                            </option>
+                        </select>
+                    </p>
+                    <p class="choose-preset-name">
+                        <label>Choose a preset name</label><br>
+                        <input
+                            v-model="presetName"
+                            placeholder="Choose a name"
+                            type="text"
+                        >
+                    </p>
+                </section>
+            </ConfirmDialog>
+        </aside>
     </div>
 </template>
 
 <script>
-import { activeFormat } from '@/models/presets.js';
+import presets, { activeFormat } from '@/models/presets.js';
 import DigitalTimerEditor from '@/components/DigitalTimerEditor.vue';
+import ConfirmDialog from '@/components/ConfirmDialog.vue';
 
 export default {
     name: 'TimerSettings',
     data: () => ({
         activeFormat: activeFormat,
         nbInitFrozen: 2,
+        saveDialog: false,
+        presets: presets,
+        presetId: presets.activePreset || '',
+        presetName: (presets.getPreset(presets.activePreset) || { name: ''}).name,
     }),
     computed: {
         events() {
             return this.activeFormat.events;
+        },
+        presetList() {
+            return this.presets.data;
         },
     },
     methods: {
@@ -264,9 +319,28 @@ export default {
 
             return id;
         },
+
+        saveConfig() {
+            this.saveDialog = true;
+        },
+        savePreset() {
+            this.saveDialog = false;
+            const preset = {
+                id: this.presetId,
+                name: this.presetName,
+                format: this.activeFormat,
+            };
+            presets.addPreset(preset);
+        },
+    },
+    watch: {
+        presetId() {
+            this.presetName = (presets.getPreset(this.presetId) || { name: ''}).name;
+        },
     },
     components: {
         DigitalTimerEditor,
+        ConfirmDialog,
     },
 };
 </script>
@@ -329,5 +403,24 @@ export default {
 .information-message {
     font-size: 0.8em;
     font-style: italic;
+}
+
+.save-preset {
+    margin-top: 25px;
+    font-size: 1.2em;
+    padding: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #0055ff;
+    color: white;
+    cursor: pointer;
+}
+
+.choose-preset-name {
+    line-height: 1.5em;
+    text-align: left;
+}
+.choose-preset-name > input {
+    width: 100%;
 }
 </style>
