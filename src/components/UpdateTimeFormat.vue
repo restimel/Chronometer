@@ -31,7 +31,7 @@
                 </label>
                 <DigitalTimer
                     :value="exampleValue"
-                    :timeFormat="formatStr"
+                    :timeFormat="isValid ? formatStr : '--format error--'"
                 />
             </fieldset>
         </ConfirmDialog>

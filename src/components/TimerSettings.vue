@@ -27,6 +27,7 @@
                 <select
                     v-model="event.trigger"
                     :disabled="event.id === 'init'"
+                    @change="eventInit(event)"
                 >
                     <option disabled value="never">
                         <i>Select what triggers this event</i>
@@ -80,7 +81,7 @@
                     <label>
                         <select
                             v-model="action.action"
-                            @change="action.value=''"
+                            @change="actionInit(action)"
                             :disabled="event.id === 'init' && idx < nbInitFrozen"
                         >
                             <option value="none" disabled>
@@ -297,7 +298,7 @@ export default {
         addAction(event) {
             const action = {
                 action: 'none',
-                value: null,
+                value: '',
             };
             event.actions.push(action);
         },
@@ -340,6 +341,41 @@ export default {
             };
             const id = presets.add(preset);
             presets.setActive(id);
+        },
+
+        eventInit(event) {
+            switch(event.trigger) {
+                case 'reach':
+                    event.triggerValue = 0;
+                    break;
+                default:
+                    event.triggerValue = null;
+            }
+        },
+
+        actionInit(action) {
+            switch (action.action) {
+                case 'color':
+                    action.value = 'black';
+                    break;
+                case 'increment':
+                    action.value = 0;
+                    break;
+                case 'set':
+                case 'addTime':
+                    action.value = 0;
+                    break;
+                case 'format':
+                    action.value = this.activeFormat.display;
+                    break;
+                case 'enable':
+                case 'disable':
+                case 'runEvent':
+                    action.value = '';
+                    break;
+                default:
+                    action.value = '';
+            }
         },
 
         formatChanged(action, event) {

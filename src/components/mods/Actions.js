@@ -74,6 +74,9 @@ export default {
             switch (action) {
                 case 'stop':
                     this.chrono.stop();
+                    if (currentEvent.trigger === 'reach') {
+                        this.chrono.reset(+currentEvent.triggerValue);
+                    }
                     break;
                 case 'start':
                     this.chrono.start();
