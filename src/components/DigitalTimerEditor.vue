@@ -13,6 +13,7 @@
                 type="number"
                 min="0"
                 size="2"
+                :title="chunk.fullName"
                 v-model="values[chunk.name]"
             >
             <span v-else

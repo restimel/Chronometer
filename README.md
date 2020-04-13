@@ -13,7 +13,7 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
 * Keyboard control, and possibility to rebind keys
     * start timer on keyUp
     * end timer on keyDown
-* Display is configurable (_work in progress (50%)_)
+* Display is configurable
 * Configures timer to do several actions (_Work in progress (90%)_)
     * Change timer color
     * Play sounds

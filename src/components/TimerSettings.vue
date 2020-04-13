@@ -93,6 +93,9 @@
                             <option value="sound" disabled>
                                 Play a sound
                             </option>
+                            <option value="increment">
+                                Change counting direction
+                            </option>
                             <option value="start">
                                 Start sleeping timer
                             </option>
@@ -105,8 +108,8 @@
                             <option value="addTime">
                                 Add time
                             </option>
-                            <option value="increment">
-                                Change counting direction
+                            <option value="format">
+                                Set timer format display
                             </option>
                             <option value="enable">
                                 Enable an event
@@ -161,6 +164,12 @@
                                         {{event.name}}
                                     </option>
                                 </select>
+                            </span>
+                            <span v-else-if="action.action === 'format'">
+                                <UpdateTimeFormat
+                                    v-model="action.value"
+                                    @input="formatChanged(action, event)"
+                                />
                             </span>
                         </template>
                     </label>
@@ -250,12 +259,13 @@
 import presets, { activeFormat } from '@/models/presets.js';
 import DigitalTimerEditor from '@/components/DigitalTimerEditor.vue';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import UpdateTimeFormat from '@/components/UpdateTimeFormat.vue';
 
 export default {
     name: 'TimerSettings',
     data: () => ({
         activeFormat: activeFormat,
-        nbInitFrozen: 2,
+        nbInitFrozen: 3,
         saveDialog: false,
         presets: presets,
         presetId: presets.activePreset || '',
@@ -320,6 +330,7 @@ export default {
         saveConfig() {
             this.saveDialog = true;
         },
+
         savePreset() {
             this.saveDialog = false;
             const preset = {
@@ -330,6 +341,13 @@ export default {
             const id = presets.add(preset);
             presets.setActive(id);
         },
+
+        formatChanged(action, event) {
+            /* if the display is changed in the init event, chnage all formats */
+            if (event.id === 'init' && action.action === 'format') {
+                activeFormat.display = action.value;
+            }
+        },
     },
     watch: {
         presetId() {
@@ -338,6 +356,7 @@ export default {
     },
     components: {
         DigitalTimerEditor,
+        UpdateTimeFormat,
         ConfirmDialog,
     },
 };

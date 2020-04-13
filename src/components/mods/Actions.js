@@ -66,6 +66,10 @@ export default {
             calledEvents.pop();
         },
 
+        changeFormat(format) {
+            this.currentFormat.display = format;
+        },
+
         doAction({ action, value }, currentEvent) {
             switch (action) {
                 case 'stop':
@@ -95,6 +99,9 @@ export default {
                     break;
                 case 'runEvent':
                     this.runEvent(value, currentEvent);
+                    break;
+                case 'format':
+                    this.changeFormat(value);
                     break;
                 // case 'sound':
                 case 'none':

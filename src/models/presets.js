@@ -22,6 +22,9 @@ const initConf = {
                 action: 'increment',
                 value: 1,
             }, {
+                action: 'format',
+                value: '{HH}:{MM}:{SS}.{LLL}',
+            }, {
                 action: 'enable',
                 value: '*',
             }, {
