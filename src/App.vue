@@ -12,6 +12,7 @@
                 :is="activePage"
             />
         </section>
+        <Sound />
     </div>
 </template>
 
@@ -21,6 +22,7 @@ import Chronometer from './components/Chronometer.vue';
 import ShortcutSettings from './components/ShortcutSettings.vue';
 import TimerSettings from './components/TimerSettings.vue';
 import PresetMngt from './components/PresetMngt.vue';
+import Sound from './components/Sound.vue';
 
 export default {
     name: 'App',
@@ -33,6 +35,7 @@ export default {
         ShortcutSettings,
         TimerSettings,
         PresetMngt,
+        Sound,
     },
 };
 </script>

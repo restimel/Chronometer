@@ -39,6 +39,7 @@ import KeyboardMngt from './mods/KeyboardMngt.js';
 import chrono from '@/models/chrono.js';
 import presets, {activeFormat} from '@/models/presets.js';
 import DigitalTimer from '@/components/DigitalTimer.vue';
+import { interfaces as sound } from '@/components/Sound.vue';
 
 export default {
     name: 'Chronometer',
@@ -106,6 +107,7 @@ export default {
         },
     },
     created() {
+        sound.removeSound(-1, true);
         this.init();
     },
     components: {

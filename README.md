@@ -1,14 +1,15 @@
 # Chronometer
 Online chronometer with configurable settings (loop, sound, ...)
 
-# Purpose
+## Purpose
 Create a simple configurable chronometer which can be started with keyboard.
 It should be usable for many games which needs special timer.
 
-# Test online
+## Test online
 Visit https://restimel.github.io/Chronometer/dist/index.html
 
-# Features
+## Features
+
 * Timer up and down
 * Keyboard control, and possibility to rebind keys
     * start timer on keyUp
@@ -16,11 +17,20 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
 * Display is configurable
 * Configures timer to do several actions
     * Change timer color
-    * Play sounds (_Work in progress (50%)_)
+    * Play sounds (_Work in progress (80%)_)
     * Restart timer (this allows to do infinite loop)
     * Add time (for a Fisher system equivalent)
 * Save preset timers
 * Record time (_Work in progress (5%)_)
+
+### Roadmap features
+
+* Play sounds from an url
+* Upload sounds from computer
+* Save configuration as a JSON
+* Load configuration from a JSON
+* Load JSON configuration from an URL
+* Provide online configuration
 
 ## Project development
 ### Project setup

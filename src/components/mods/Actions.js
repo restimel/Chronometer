@@ -1,3 +1,5 @@
+import { interfaces as sound } from '@/components/Sound.vue';
+
 const calledEvents = [];
 
 export default {
@@ -122,7 +124,9 @@ export default {
                 case 'format':
                     this.changeFormat(value);
                     break;
-                // case 'sound':
+                case 'sound':
+                    sound.playSound(value);
+                    break;
                 case 'none':
                     break;
                 default:

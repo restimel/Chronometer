@@ -91,7 +91,7 @@
                             <option value="color">
                                 Change timer color
                             </option>
-                            <option value="sound" disabled>
+                            <option value="sound">
                                 Play a sound
                             </option>
                             <option value="increment">
@@ -170,6 +170,11 @@
                                 <UpdateTimeFormat
                                     v-model="action.value"
                                     @input="formatChanged(action, event)"
+                                />
+                            </span>
+                            <span v-else-if="action.action === 'sound'">
+                                <SoundSelector
+                                    v-model="action.value"
                                 />
                             </span>
                         </template>
@@ -261,6 +266,7 @@ import presets, { activeFormat } from '@/models/presets.js';
 import DigitalTimerEditor from '@/components/DigitalTimerEditor.vue';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import UpdateTimeFormat from '@/components/UpdateTimeFormat.vue';
+import SoundSelector from '@/components/SoundSelector.vue';
 
 export default {
     name: 'TimerSettings',
@@ -373,6 +379,9 @@ export default {
                 case 'runEvent':
                     action.value = '';
                     break;
+                case 'sound':
+                    action.value = '';
+                    break;
                 default:
                     action.value = '';
             }
@@ -393,6 +402,7 @@ export default {
     components: {
         DigitalTimerEditor,
         UpdateTimeFormat,
+        SoundSelector,
         ConfirmDialog,
     },
 };
