@@ -46,7 +46,6 @@ export default {
         Actions,
         KeyboardMngt,
     ],
-    lockKey: false,
     data: () => ({
         chrono: chrono,
         currentFormat: activeFormat,
