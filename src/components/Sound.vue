@@ -22,15 +22,55 @@ let uid = 0;
 /* TODO mute */
 
 export const soundList = [{
+    desc: 'Bronze bell 1',
+    id: 'bronzeBell1',
+    path: 'bronzebell1.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Bronze bell 2',
+    id: 'bronzeBell2',
+    path: 'bronzebell2.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Bronze bell 30',
+    id: 'bronzeBell30',
+    path: 'bronzebell30.ogg',
+    type: 'audio/ogg',
+}, {
     desc: 'Daitokuji bell',
     id: 'daitokuji',
-    path: 'daitokuji-temple-bell.wav',
-    type: 'audio/wav',
+    path: 'daitokuji-temple-bell.ogg',
+    type: 'audio/ogg',
 }, {
-    desc: 'Bell',
-    id: 'juskiddink',
-    path: 'juskiddink__bell.wav',
-    type: 'audio/wav',
+    desc: 'Cow bell',
+    id: 'cowBell',
+    path: 'cowbell.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Gong',
+    id: 'gong',
+    path: 'gong.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Tiny bell 1',
+    id: 'tinybell1',
+    path: 'tinybell1.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Tiny bell 2',
+    id: 'tinybell2',
+    path: 'tinybell2.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Tiny bell 3',
+    id: 'tinybell3',
+    path: 'tinybell3.ogg',
+    type: 'audio/ogg',
+}, {
+    desc: 'Tiny bell 10',
+    id: 'tinybell10',
+    path: 'tinybell10.ogg',
+    type: 'audio/ogg',
 }];
 
 export const interfaces = {
