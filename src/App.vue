@@ -43,7 +43,7 @@ export default {
 <style scoped>
 #app {
     /* font-family: Avenir, Helvetica, Arial, sans-serif; */
-    font-family: commonFont;
+    font-family: commonFont, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
@@ -67,6 +67,6 @@ export default {
 */
 @font-face {
     font-family: commonFont;
-    src: url('./assets/DejaVuSans.ttf');
+    src: url('./assets/Symbola_hint.ttf');
 }
 </style>
