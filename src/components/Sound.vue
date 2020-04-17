@@ -146,8 +146,8 @@ export default {
 
         onError(evt, uid) {
             // TODO better description
-            console.warn(`Issue while playing sound`, evt);
-            console.error(evt.target.error.message, evt.target.error.code);
+            // console.warn(`Issue while playing sound`, evt);
+            // console.error(evt.target.error.message, evt.target.error.code);
             this.removeSound(uid);
         },
     },
