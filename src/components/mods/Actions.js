@@ -1,3 +1,5 @@
+import { interfaces as sound } from '@/components/Sound.vue';
+
 const calledEvents = [];
 
 export default {
@@ -24,9 +26,23 @@ export default {
         },
 
         trigger(evtType) {
-            const events = this.currentFormat.events.filter((event) => event.enabled && event.trigger === evtType);
+            const events = this.currentFormat.events.filter(
+                (event) =>
+                    event.enabled &&
+                    event.trigger === evtType &&
+                    !calledEvents.includes(event));
 
             events.forEach((event) => this.triggerEvent(event));
+        },
+
+        triggerFrom(evtType, currentEvent) {
+            if (evtType === currentEvent.trigger) {
+                return;
+            }
+
+            calledEvents.push(currentEvent);
+            this.trigger(evtType);
+            calledEvents.pop();
         },
 
         getEvent(id, currentEvent) {
@@ -66,13 +82,22 @@ export default {
             calledEvents.pop();
         },
 
+        changeFormat(format) {
+            this.currentFormat.display = format;
+        },
+
         doAction({ action, value }, currentEvent) {
             switch (action) {
                 case 'stop':
                     this.chrono.stop();
+                    if (currentEvent.trigger === 'reach') {
+                        this.chrono.reset(+currentEvent.triggerValue);
+                    }
+                    this.triggerFrom('stop', currentEvent);
                     break;
                 case 'start':
                     this.chrono.start();
+                    this.triggerFrom('start', currentEvent);
                     break;
                 case 'set':
                     this.chrono.reset(+value);
@@ -96,7 +121,12 @@ export default {
                 case 'runEvent':
                     this.runEvent(value, currentEvent);
                     break;
-                // case 'sound':
+                case 'format':
+                    this.changeFormat(value);
+                    break;
+                case 'sound':
+                    sound.playSound(value);
+                    break;
                 case 'none':
                     break;
                 default:

@@ -103,7 +103,9 @@ export default {
     position: fixed;
     z-index: 1000;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(0, -50%);
+    max-height: 95%;
+    max-width: 95%;
     padding: 25px;
     box-shadow: 2px 5px 25px 2px black;
 }

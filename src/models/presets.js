@@ -22,6 +22,9 @@ const initConf = {
                 action: 'increment',
                 value: 1,
             }, {
+                action: 'format',
+                value: '{HH}:{MM}:{SS}.{LLL}',
+            }, {
                 action: 'enable',
                 value: '*',
             }, {
@@ -35,33 +38,39 @@ const initConf = {
 const presets = {
     data: [],
     activePreset: '',
-    add(preset, init = false) {
+
+    add(preset, {init = false} = {}) {
+        let id = preset.id;
         const data = this.data;
-        const existing = !init && data.find((item) => item.id === preset.id);
+        const existing = !init && this.getPreset(id);
+
+        /* generate a unique id */
+        if (!id) {
+            let idx = this.data.length;
+            do {
+                id = `preset ${idx++}`;
+            } while (this.getPreset(id));
+        }
+
+
         if (existing) {
-            existing.name = preset.name;
-            existing.format = preset.format;
-            existing.order = preset.order;
+            deepExtend.replaceArray(existing, preset);
         } else {
-            const conf = Object.assign({
-                order: data.length,
+            const newPreset = deepExtend.replaceArray({}, {
                 name: 'preset',
                 format: initConf.format,
-            }, preset);
-
-            let id = conf.id || conf.name;
-            if (!init) {
-                while (data.some((item) => item.id === id)) {
-                    id += '_';
-                }
-            }
-            data.push(conf);
+            }, preset, {
+                id,
+                order: data.length,
+            });
+            this.data.push(newPreset);
         }
 
         if (!init) {
             this.data = Array.from(data.sort((a, b) => a.order - b.order));
             this.save();
         }
+        return id;
     },
     remove(preset) {
         const data = this.data;
@@ -82,32 +91,12 @@ const presets = {
         try {
             const json = JSON.parse(saved);
             json.forEach((preset) => {
-                this.add(preset, true);
+                this.add(preset, {init: true});
             });
         } catch(e) {
             // eslint-disable-next-line no-console
             console.error('Load presets failed: %s', e.message);
         }
-    },
-    addPreset(preset) {
-        let id = preset.id;
-        const existingPreset = this.getPreset(id);
-
-        /* generate a unique id */
-        if (!id) {
-            let idx = this.data.length;
-            do {
-                id = `preset ${idx++}`;
-            } while (this.getPreset(id));
-        }
-
-        if (existingPreset) {
-            deepExtend.replaceArray(existingPreset, preset);
-        } else {
-            this.data.push(deepExtend({}, preset, {id}));
-        }
-        this.setActive(id);
-        this.save();
     },
     getPreset(id) {
         return this.data.find((item) => item.id === id);

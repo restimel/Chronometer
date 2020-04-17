@@ -27,6 +27,7 @@
                 <select
                     v-model="event.trigger"
                     :disabled="event.id === 'init'"
+                    @change="eventInit(event)"
                 >
                     <option disabled value="never">
                         <i>Select what triggers this event</i>
@@ -80,7 +81,7 @@
                     <label>
                         <select
                             v-model="action.action"
-                            @change="action.value=''"
+                            @change="actionInit(action)"
                             :disabled="event.id === 'init' && idx < nbInitFrozen"
                         >
                             <option value="none" disabled>
@@ -90,8 +91,11 @@
                             <option value="color">
                                 Change timer color
                             </option>
-                            <option value="sound" disabled>
+                            <option value="sound">
                                 Play a sound
+                            </option>
+                            <option value="increment">
+                                Change counting direction
                             </option>
                             <option value="start">
                                 Start sleeping timer
@@ -105,8 +109,8 @@
                             <option value="addTime">
                                 Add time
                             </option>
-                            <option value="increment">
-                                Change counting direction
+                            <option value="format">
+                                Set timer format display
                             </option>
                             <option value="enable">
                                 Enable an event
@@ -161,6 +165,17 @@
                                         {{event.name}}
                                     </option>
                                 </select>
+                            </span>
+                            <span v-else-if="action.action === 'format'">
+                                <UpdateTimeFormat
+                                    v-model="action.value"
+                                    @input="formatChanged(action, event)"
+                                />
+                            </span>
+                            <span v-else-if="action.action === 'sound'">
+                                <SoundSelector
+                                    v-model="action.value"
+                                />
                             </span>
                         </template>
                     </label>
@@ -250,12 +265,14 @@
 import presets, { activeFormat } from '@/models/presets.js';
 import DigitalTimerEditor from '@/components/DigitalTimerEditor.vue';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
+import UpdateTimeFormat from '@/components/UpdateTimeFormat.vue';
+import SoundSelector from '@/components/SoundSelector.vue';
 
 export default {
     name: 'TimerSettings',
     data: () => ({
         activeFormat: activeFormat,
-        nbInitFrozen: 2,
+        nbInitFrozen: 3,
         saveDialog: false,
         presets: presets,
         presetId: presets.activePreset || '',
@@ -287,7 +304,7 @@ export default {
         addAction(event) {
             const action = {
                 action: 'none',
-                value: null,
+                value: '',
             };
             event.actions.push(action);
         },
@@ -320,6 +337,7 @@ export default {
         saveConfig() {
             this.saveDialog = true;
         },
+
         savePreset() {
             this.saveDialog = false;
             const preset = {
@@ -327,7 +345,53 @@ export default {
                 name: this.presetName,
                 format: this.activeFormat,
             };
-            presets.addPreset(preset);
+            const id = presets.add(preset);
+            presets.setActive(id);
+        },
+
+        eventInit(event) {
+            switch(event.trigger) {
+                case 'reach':
+                    event.triggerValue = 0;
+                    break;
+                default:
+                    event.triggerValue = null;
+            }
+        },
+
+        actionInit(action) {
+            switch (action.action) {
+                case 'color':
+                    action.value = 'black';
+                    break;
+                case 'increment':
+                    action.value = 0;
+                    break;
+                case 'set':
+                case 'addTime':
+                    action.value = 0;
+                    break;
+                case 'format':
+                    action.value = this.activeFormat.display;
+                    break;
+                case 'enable':
+                case 'disable':
+                case 'runEvent':
+                    action.value = '';
+                    break;
+                case 'sound':
+                    action.value = '';
+                    break;
+                default:
+                    action.value = '';
+            }
+        },
+
+        formatChanged(action, event) {
+            /* if the display is changed in the init event, chnage all formats */
+            if (event.id === 'init' && action.action === 'format') {
+                activeFormat.display = action.value;
+            }
         },
     },
     watch: {
@@ -337,6 +401,8 @@ export default {
     },
     components: {
         DigitalTimerEditor,
+        UpdateTimeFormat,
+        SoundSelector,
         ConfirmDialog,
     },
 };

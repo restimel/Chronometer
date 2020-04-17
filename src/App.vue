@@ -12,6 +12,7 @@
                 :is="activePage"
             />
         </section>
+        <Sound />
     </div>
 </template>
 
@@ -20,6 +21,8 @@ import Menu from './components/Menu.vue';
 import Chronometer from './components/Chronometer.vue';
 import ShortcutSettings from './components/ShortcutSettings.vue';
 import TimerSettings from './components/TimerSettings.vue';
+import PresetMngt from './components/PresetMngt.vue';
+import Sound from './components/Sound.vue';
 
 export default {
     name: 'App',
@@ -31,13 +34,16 @@ export default {
         Chronometer,
         ShortcutSettings,
         TimerSettings,
+        PresetMngt,
+        Sound,
     },
 };
 </script>
 
 <style scoped>
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
+    /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+    font-family: commonFont;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
@@ -53,4 +59,14 @@ export default {
     grid-area: content;
 }
 
+</style>
+
+<style>
+/* This font is to display correctly special characters used as icons
+* ⏹⏺⏸▶💾➕➖✖📝🗑
+*/
+@font-face {
+    font-family: commonFont;
+    src: url('./assets/DejaVuSans.ttf');
+}
 </style>

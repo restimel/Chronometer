@@ -7,48 +7,54 @@
 
 export const conversion = [{
     name: 'ms',
+    fullName: 'milliseconds',
     max: 1000,
     tag: 'L',
 }, {
     name: 's',
+    fullName: 'seconds',
     max: 60,
     tag: 'S',
 }, {
     name: 'min',
+    fullName: 'minutes',
     max: 60,
     tag: 'M',
 }, {
     name: 'h',
+    fullName: 'hours',
     max: 24,
     tag: 'H',
 }, {
     name: 'd',
+    fullName: 'days',
     max: Infinity,
     tag: 'D',
 }];
 
+export function isFormatValid(format) {
+    if (!format || typeof format !== 'string') {
+        return false;
+    }
+
+    /*
+    ^(?:
+        (?:
+            \\.
+            |
+            [^{]
+        )*
+        (?:
+            \{([DHMSL])\1*\}
+        )?
+    )+$
+     */
+    const rule = /^(?:(?:\\.|[^{])*(?:\{([DHMSL])\1*\})?)+$/;
+
+    return rule.test(format);
+}
+
 export default {
-    conversion: [{
-        name: 'ms',
-        max: 1000,
-        tag: 'L',
-    }, {
-        name: 's',
-        max: 60,
-        tag: 'S',
-    }, {
-        name: 'min',
-        max: 60,
-        tag: 'M',
-    }, {
-        name: 'h',
-        max: 24,
-        tag: 'H',
-    }, {
-        name: 'd',
-        max: Infinity,
-        tag: 'D',
-    }],
     computed: {
         isNegative() {
             return this.value < 0;
@@ -68,6 +74,7 @@ export default {
                         tag: tag,
                         nb: str.length - 2,
                         name: valueName,
+                        fullName: unit.fullName,
                     });
                 } else if (str) {
                     list.push(str.replace(/\\(.)/g, '$1'));
@@ -126,3 +133,56 @@ export default {
         this.update();
     },
 };
+
+export function __testIsFormatValid() {
+    /* eslint-disable no-console */
+
+    console.group('testing isFormatValid');
+
+    const validStr = [
+        'simple string',
+        'UPPER CASE STRING HH OO',
+        'special chars: ^/#&éèà@$€*?!,.;<>()[]-+=×÷·̣¿',
+        '{M}',
+        '{HH}:{MM}:{SS}.{LL}',
+        '{D}days {HHH}:{MMM}:{SS}.{LLLL}',
+        '{SS} {SS} {S}',
+        'text around {LLLL} format!',
+        'A string with } inside',
+        'A string with \\\\ as escape sequence',
+        'A string with \\{OO} as escape sequence',
+    ];
+    const invalidStr = [
+        '',
+        'string with {} only',
+        '{YYYY}',
+        '{HM}',
+        'string with { inside',
+        '{H',
+        '{H }',
+        '{m}',
+        '{hh}:{mm}:{ss}.{ll}',
+        '{d}days {hhh}:{mmm}:{ss}.{llll}',
+        '{ss} {ss} {s}',
+    ];
+
+    console.info('Start test');
+
+    console.assert(isFormatValid() === false, 'should return false for undefined argument');
+    console.assert(isFormatValid(null) === false, 'should return false for null argument');
+    console.assert(isFormatValid(42) === false, 'should return false for number argument');
+    console.info('Valid strings');
+    validStr.forEach((str) => {
+        console.assert(isFormatValid(str) === true, `should be valid: ${JSON.stringify(str)}`);
+    });
+    console.info('Invalid strings');
+    invalidStr.forEach((str) => {
+        console.assert(isFormatValid(str) === false, `should be invalid: ${JSON.stringify(str)}`);
+    });
+
+    console.info('Finish!');
+
+    console.groupEnd();
+
+    /* eslint-enable no-console */
+}

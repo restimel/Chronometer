@@ -4,6 +4,7 @@
         <ul>
             <li v-for="page of pages"
                 :key="page.id"
+                class="page-link"
                 :class="{
                     active: page.id === active,
                 }"
@@ -19,6 +20,7 @@
             <ul>
                 <li v-for="preset of presets.data"
                     :key="preset.id"
+                    class="preset-link"
                     :class="{
                         active: preset.id === presets.activePreset,
                     }"
@@ -27,6 +29,12 @@
                     {{preset.name}}
                 </li>
             </ul>
+            <div
+                class="page-link"
+                @click.prevent.stop="$emit('change', 'PresetMngt')"
+            >
+                Manage presets
+            </div>
         </details>
     </nav>
 </template>
@@ -57,11 +65,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-li {
+.preset-link,
+.page-link {
     color: #42b983;
     cursor: pointer;
 }
-li:hover {
+.preset-link:hover,
+.page-link:hover {
     font-weight: bold;
 }
 .active {
