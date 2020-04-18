@@ -22,12 +22,14 @@
                     class="actions-area"
                 >
                     <button
+                        class="icon"
                         title="Edit name of this preset"
                         @click="(editNamePreset = preset, presetName = preset.name)"
                     >
                         📝
                     </button>
                     <button
+                        class="icon"
                         title="Delete this preset"
                         @click="deletedPreset = preset"
                     >

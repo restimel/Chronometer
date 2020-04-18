@@ -1,7 +1,7 @@
 <template>
     <span class="digital-timer-editor" :class="{hasError: hasError}">
         <span
-            class="time-sign"
+            class="time-sign icon"
             @click.prevent.stop="negativeSign = !negativeSign"
         >
             {{negativeSign ? '➖' : '➕'}}

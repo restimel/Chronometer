@@ -11,7 +11,7 @@
         >
             <header class="header-event">
                 <button v-if="event.id !== 'init'"
-                    class="remove-event-btn"
+                    class="remove-event-btn icon"
                     @click.prevent.stop="removeEvent(event)"
                     title="Remove this event"
                 >
@@ -180,7 +180,7 @@
                         </template>
                     </label>
                     <button v-if="!(event.id === 'init' && idx < nbInitFrozen)"
-                        class="remove-action-buton"
+                        class="remove-action-buton icon"
                         @click.prevent.stop="removeAction(event, action)"
                         title="Remove this action"
                     >
@@ -193,7 +193,8 @@
                         @click.prevent.stop="addAction(event)"
                         title="Add an action in this event"
                     >
-                        ➕ Add an action
+                        <span class="icon">➕</span>
+                        Add an action
                     </button>
                 </footer>
             </div>
@@ -212,7 +213,8 @@
                 class="add-btn"
                 @click.prevent.stop="addEvent"
             >
-                ➕ Add an event
+                <span class="icon">➕</span>
+                Add an event
             </button>
         </footer>
         <footer>
@@ -220,7 +222,8 @@
                 class="save-preset"
                 @click.prevent.stop="saveConfig"
             >
-                💾 Save this configuration
+                <span class="icon">💾</span>
+                Save this configuration
             </button>
         </footer>
         <aside>

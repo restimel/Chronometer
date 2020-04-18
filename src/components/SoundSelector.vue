@@ -16,12 +16,14 @@
         </select>
 
         <button v-if="playId === -1"
+            class="icon"
             :disabled="internalValue === ''"
             @click="play"
         >
             ▶
         </button>
         <button v-else
+            class="icon"
             @click="stop"
         >
             ⏹
