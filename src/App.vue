@@ -42,8 +42,7 @@ export default {
 
 <style scoped>
 #app {
-    /* font-family: Avenir, Helvetica, Arial, sans-serif; */
-    font-family: commonFont, sans-serif;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     height: 100%;
@@ -66,7 +65,12 @@ export default {
 * ⏹⏺⏸▶💾➕➖✖📝🗑
 */
 @font-face {
-    font-family: commonFont;
+    font-family: main;
     src: url('./assets/Symbola_hint.ttf');
 }
+
+.icon {
+    font-family: main, Arial, sans-serif;
+}
+
 </style>

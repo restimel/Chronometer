@@ -9,21 +9,21 @@
             class="chronometer-footer"
         >
             <button
-                class="action-btn"
+                class="action-btn icon"
                 :title="mainActionName"
                 @click="mainAction"
             >
                 {{mainActionIcon}}
             </button>
             <button
-                class="action-btn"
+                class="action-btn icon"
                 title="Reset"
                 @click="reset"
             >
                 ⏹
             </button>
             <button
-                class="action-btn"
+                class="action-btn icon"
                 title="Record current time"
                 @click="record"
             >
