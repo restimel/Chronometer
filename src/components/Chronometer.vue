@@ -30,6 +30,11 @@
                 ⏺
             </button>
         </footer>
+        <RecordTable
+            :timeList="records"
+            :timeFormat="currentFormat.display"
+            @remove="(idx) => records.splice(idx, 1)"
+        />
     </div>
 </template>
 
@@ -39,6 +44,7 @@ import KeyboardMngt from './mods/KeyboardMngt.js';
 import chrono from '@/models/chrono.js';
 import presets, {activeFormat} from '@/models/presets.js';
 import DigitalTimer from '@/components/DigitalTimer.vue';
+import RecordTable from '@/components/RecordTable.vue';
 import { interfaces as sound } from '@/components/Sound.vue';
 
 export default {
@@ -52,6 +58,7 @@ export default {
         currentFormat: activeFormat,
         color: 'black',
         presets: presets,
+        records: [],
     }),
     computed: {
         mainActionName() {
@@ -92,8 +99,11 @@ export default {
             this.actionReset();
         },
         record() {
-            // eslint-disable-next-line no-console
-            console.log('TODO record', chrono.timestamp);
+            this.trigger('record');
+            this.records.push(this.chrono.timestamp);
+        },
+        clearRecords() {
+            this.records.splice(0);
         },
 
         init() {
@@ -112,6 +122,7 @@ export default {
     },
     components: {
         DigitalTimer,
+        RecordTable,
     },
 };
 </script>

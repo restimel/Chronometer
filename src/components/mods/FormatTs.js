@@ -32,6 +32,12 @@ export const conversion = [{
     tag: 'D',
 }];
 
+/**
+ * It requires:
+ * value: (number) the timestamp value
+ * timeformat: (string) the format description
+ * values: (object) value of each unit
+ */
 export function isFormatValid(format) {
     if (!format || typeof format !== 'string') {
         return false;

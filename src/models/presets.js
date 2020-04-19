@@ -25,6 +25,9 @@ const initConf = {
                 action: 'format',
                 value: '{HH}:{MM}:{SS}.{LLL}',
             }, {
+                action: 'clearRecords',
+                value: '',
+            }, {
                 action: 'enable',
                 value: '*',
             }, {
@@ -77,6 +80,7 @@ const presets = {
         const idx = data.findIndex((item) => item.id === preset.id);
         if (idx !== -1) {
             data.splice(idx, 1);
+            this.save();
         }
     },
     save() {

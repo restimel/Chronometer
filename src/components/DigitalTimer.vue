@@ -1,5 +1,10 @@
 <template>
-    <div class="digital-timer">
+    <div
+        class="digital-timer"
+        :class="{
+            inline: inline,
+        }"
+    >
         {{timerString}}
     </div>
 </template>
@@ -17,6 +22,10 @@ export default {
         timeFormat: {
             type: String,
             resquired: true,
+        },
+        inline: {
+            type: Boolean,
+            default: false,
         },
     },
     mixins: [
@@ -72,6 +81,14 @@ export default {
     text-align: center;
     font-family: digital;
     font-weight: bold;
+}
+.digital-timer.inline {
+    padding-top: 0;
+    font-size: 1em;
+    text-align: inherit;
+    font-family: Avenir, Helvetica, Arial, sans-serif;;
+    font-weight: normal;
+    display: inline;
 }
 </style>
 

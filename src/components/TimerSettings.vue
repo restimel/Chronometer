@@ -44,6 +44,9 @@
                     <option value="reset">
                         when timer is reset
                     </option>
+                    <option value="record">
+                        when a time is recorded
+                    </option>
                     <option value="Special1">
                         when shortcut Special 1 is triggered
                     </option>
@@ -108,6 +111,12 @@
                             </option>
                             <option value="addTime">
                                 Add time
+                            </option>
+                            <option value="record">
+                                Record current time
+                            </option>
+                            <option value="clearRecords">
+                                Clear all recorded times
                             </option>
                             <option value="format">
                                 Set timer format display
