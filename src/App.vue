@@ -73,4 +73,7 @@ export default {
     font-family: main, Arial, sans-serif;
 }
 
+button {
+    cursor: pointer;
+}
 </style>

@@ -17,11 +17,11 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
 * Display is configurable
 * Configures timer to do several actions
     * Change timer color
-    * Play sounds (_Work in progress (80%)_)
+    * Play sounds
     * Restart timer (this allows to do infinite loop)
     * Add time (for a Fisher system equivalent)
 * Save preset timers
-* Record time (_Work in progress (5%)_)
+* Record time
 
 ### Roadmap features
 

@@ -127,6 +127,12 @@ export default {
                 case 'sound':
                     sound.playSound(value);
                     break;
+                case 'record':
+                    this.record();
+                    break;
+                case 'clearRecords':
+                    this.clearRecords();
+                    break;
                 case 'none':
                     break;
                 default:
