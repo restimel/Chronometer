@@ -9,7 +9,10 @@
             @emptied="removeSound(sound.uid)"
             @error="(evt) => onError(evt, sound.uid)"
         >
-            <source :src="sound.sound" :type="sound.type">
+            <source
+                :src="sound.sound"
+                :type="sound.type"
+            >
 
         </audio>
     </div>
@@ -107,12 +110,28 @@ export default {
 
         playSound(sound, cb) {
             if (typeof sound === 'string') {
-                const soundData = soundList.find((snd) => snd.id === sound);
+                let [type, soundValue] = sound.split('::');
+                let soundData;
+
+
+                switch(type) {
+                    case 'url':
+                        soundData = this.getUrlSound(soundValue);
+                        break;
+                    case 'sound':
+                    default:
+                        soundData = this.getInternalSound(soundValue);
+                }
+
+                if (!soundData) {
+                    return;
+                }
+
                 const soundId = uid++;
 
                 this.sounds.push({
                     uid: soundId,
-                    sound: `${this.publicPath}${soundData.path}`,
+                    sound: soundData.path,
                     type: soundData.type,
                 });
 
@@ -123,6 +142,24 @@ export default {
                 return soundId;
             }
             return -1;
+        },
+
+        getInternalSound(soundValue) {
+            const data = soundList.find((snd) => snd.id === soundValue);
+            if (data) {
+                return {
+                    path: `${this.publicPath}${data.path}`,
+                    type: data.type,
+                };
+            }
+            return;
+        },
+
+        getUrlSound(soundvalue) {
+            return  {
+                path: soundvalue,
+                type: '',
+            };
         },
 
         removeSound(uid = -1, noCallback = false) {

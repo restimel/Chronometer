@@ -2,18 +2,32 @@
     <span class="sound-selector">
         <select
             v-model="internalValue"
-            @change="$emit('input', internalValue)"
+            @change="checkEmit"
         >
             <option value="" disabled>
                 Choose a sound
             </option>
+            <hr>
+            <option value="¤url¤" disabled>
+                Choose a sound
+            </option>
+            <hr>
             <option v-for="sound of soundList"
                 :key="`sound--${sound.id}`"
-                :value="sound.id"
+                :value="'sound::' + sound.id"
             >
                 {{sound.desc}}
             </option>
         </select>
+
+        <input v-if="currentType === 'url'"
+            :value="currentValue"
+            @input="(value) => internalValue = `url::${value}`"
+            @change="checkEmit"
+
+            placeholder="Enter sound url"
+            type="url"
+        />
 
         <button v-if="playId === -1"
             class="icon"
@@ -50,6 +64,14 @@ export default {
         };
     },
     computed: {
+        currentType() {
+            const [type] = this.internalValue.split('::');
+            return type;
+        },
+        currentValue() {
+            const [,value] = this.internalValue.split('::');
+            return value;
+        },
     },
     methods: {
         play() {
@@ -72,6 +94,11 @@ export default {
             }
             sound.removeSound(playId);
             this.playId = -1;
+        },
+        checkEmit() {
+            if (this.type &&  this.value) {
+                this.$emit('input', this.internalValue);
+            }
         },
     },
     watch: {
