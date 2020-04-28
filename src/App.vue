@@ -65,12 +65,12 @@ export default {
 * ⏹⏺⏸▶💾➕➖✖📝🗑
 */
 @font-face {
-    font-family: main;
+    font-family: icon;
     src: url('./assets/Symbola_hint.ttf');
 }
 
 .icon {
-    font-family: main, Arial, sans-serif;
+    font-family: icon, Arial, sans-serif;
 }
 
 button {

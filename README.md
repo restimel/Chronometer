@@ -18,6 +18,8 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
 * Configures timer to do several actions
     * Change timer color
     * Play sounds
+        * Propose a small set of sounds
+        * Play sounds from an url
     * Restart timer (this allows to do infinite loop)
     * Add time (for a Fisher system equivalent)
 * Save preset timers
@@ -25,7 +27,6 @@ Visit https://restimel.github.io/Chronometer/dist/index.html
 
 ### Roadmap features
 
-* Play sounds from an url
 * Upload sounds from computer
 * Save configuration as a JSON
 * Load configuration from a JSON

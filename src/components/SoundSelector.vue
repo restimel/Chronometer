@@ -1,15 +1,16 @@
 <template>
     <span class="sound-selector">
         <select
-            v-model="internalValue"
+            :value="selectValue"
+            @input="(evt) => internalValue = evt.currentTarget.value"
             @change="checkEmit"
         >
             <option value="" disabled>
                 Choose a sound
             </option>
             <hr>
-            <option value="¤url¤" disabled>
-                Choose a sound
+            <option value="url::">
+                Sound from internet
             </option>
             <hr>
             <option v-for="sound of soundList"
@@ -22,7 +23,7 @@
 
         <input v-if="currentType === 'url'"
             :value="currentValue"
-            @input="(value) => internalValue = `url::${value}`"
+            @input="(evt) => internalValue = `url::${evt.currentTarget.value}`"
             @change="checkEmit"
 
             placeholder="Enter sound url"
@@ -69,8 +70,15 @@ export default {
             return type;
         },
         currentValue() {
+            console.log('val', this.internalValue);
             const [,value] = this.internalValue.split('::');
             return value;
+        },
+        selectValue() {
+            if (this.currentType === 'url') {
+                return 'url::';
+            }
+            return this.internalValue;
         },
     },
     methods: {
@@ -96,8 +104,13 @@ export default {
             this.playId = -1;
         },
         checkEmit() {
-            if (this.type &&  this.value) {
-                this.$emit('input', this.internalValue);
+            const internalValue = this.internalValue;
+            const value = this.value;
+            const currentType = this.currentType;
+            const currentValue = this.currentValue;
+
+            if (currentType && currentValue && internalValue !== value) {
+                this.$emit('input', internalValue);
             }
         },
     },
