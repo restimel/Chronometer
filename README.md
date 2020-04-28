@@ -50,6 +50,8 @@ npm run serve
 npm run build
 ```
 
+You can change your base url (mainly to load local sounds) in the `.env.production` file.
+
 #### For Github
 ```
 npm run gh-pages
